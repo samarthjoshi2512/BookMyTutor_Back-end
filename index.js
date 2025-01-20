@@ -22,7 +22,7 @@ app.use('/api/admin',adminRouter)
 app.use('/api/teacher',teacherRouter)
 app.use('/api/user',userRouter)
 
-app.get('/',(req,res)=>{
+app.get('/demo',(req,res)=>{
   res.send('API WORKING')
 })
 
