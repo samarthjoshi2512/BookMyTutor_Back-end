@@ -26,6 +26,11 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, message: "Enter a strong password" });
     }
 
+    // validating name contains only alphabets
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      return res.json({ success: false, message: "Name should contain only alphabets" });
+    }
+
     // Hasing user password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -93,6 +98,11 @@ const updateProfile = async (req, res) => {
 
     if (!name || !phone || !dob || !gender) {
       return res.json({ success: false, message: "Data Missing" });
+    }
+
+    // validating name contains only alphabets
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      return res.json({ success: false, message: "Name should contain only alphabets" });
     }
 
     await userModel.findByIdAndUpdate(userId, {
@@ -210,11 +220,11 @@ const cancelSchedule = async (req,res) => {
 
     await scheduleModel.findByIdAndUpdate(scheduleId, {cancelled:true})
 
-    // Releasing doctor slot
+    // Releasing teacher slot
 
     const {teacId, slotDate, slotTime} = scheduleData
     
-    const teacherData = await teacherModel.findById(teacId) 
+    const teacherData = await teacherModel.findById(teacId)
 
     let slots_booked = teacherData.slots_booked
 
